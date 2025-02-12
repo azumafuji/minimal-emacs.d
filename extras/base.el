@@ -1,11 +1,9 @@
 ;;; base.el --- DESCRIPTION -*- no-byte-compile: t; lexical-binding: t; -*-
 
-
 (use-package auto-sudoedit
   :ensure t
   :config
   (auto-sudoedit-mode 1))
-
 
 ;; detecting dark modes
 ;; borrowed from auto-dark.el
@@ -28,12 +26,14 @@
     (setq buffer-face-mode-face '(:background "#FFF0F9")))
   (buffer-face-mode 1))
 
+(defun ds/theme-dark ()
+  (eq 'dark (frame-parameter nil 'background-mode)))
+
 (defun ds/sudo-set-bg ()
   (cond ((string-match-p "sudo" (concat "." (file-remote-p default-directory)))
          (ds/sudo-bg-color))))
 
 (add-hook 'find-file-hook 'ds/sudo-set-bg)
-
 
 (use-package spacious-padding
   :ensure t

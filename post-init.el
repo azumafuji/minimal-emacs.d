@@ -106,31 +106,8 @@
 
 ;; Configure Emacs to ask for confirmation before exiting
 (setq confirm-kill-emacs 'y-or-n-p)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Fonts
-
 ;; Set docview DPI
 (setq doc-view-resolution 300)
-
-(setq-default line-spacing 0.2)
-;; For the GUI use this font and line spacing
-(set-face-attribute 'default nil
-                    :family "IosevkaTermSlab Nerd Font Mono" :weight 'Regular)
-(set-face-attribute 'default nil
-                    :family "IBM Plex Mono" :weight 'Regular)
-
-;; Proportionately spaced typeface
-(set-face-attribute 'variable-pitch nil :family "IBM Plex Sans" :height 1.0)
-
-;; Monospaced typeface
-(set-face-attribute 'fixed-pitch nil :family "IBM Plex Mono" :height 1.0)
-
-(set-face-attribute 'mode-line-active nil :height 1.0 :inherit 'variable-pitch)
-(set-face-attribute 'mode-line-inactive nil :height 0.8 :inherit 'variable-pitch)
-
-;; Setup Visual line mode
-(add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -160,7 +137,6 @@
               ("C-c l s" . org-store-link)          ; Mnemonic: link → store
               ("C-c l i" . org-insert-link-global)) ; Mnemonic: link → insert
   :config
-  (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
   (require 'oc-csl)                     ; citation support
   (add-to-list 'org-export-backends 'md)
 
@@ -189,7 +165,6 @@
      (plantuml . t)
      (latex . t)
      (python . t)
-     (restclient . t)
      (shell . t)
      (sql . t)
      (emacs-lisp . t)))
@@ -198,7 +173,6 @@
     (not (or  (string= lang "ditaa")              
               (string= lang "dot")
               (string= lang "plantuml")
-              (string= lang "restclient")
               (string= lang "latex")
               (string= lang "python")
               (string= lang "sql")
@@ -307,3 +281,29 @@
 (use-package textsize
   :init (textsize-mode))
 
+(load-file (expand-file-name "extras/base.el" user-emacs-directory))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Fonts
+
+(setq-default line-spacing 0.2)
+;; For the GUI use this font and line spacing
+(set-face-attribute 'default nil
+                    :family "IosevkaTermSlab Nerd Font Mono" :weight 'Regular)
+(set-face-attribute 'default nil
+                    :family "IBM Plex Mono" :weight 'Regular)
+
+;; Proportionately spaced typeface
+(set-face-attribute 'variable-pitch nil :family "IBM Plex Sans" :height 1.0)
+
+;; Monospaced typeface
+(set-face-attribute 'fixed-pitch nil :family "IBM Plex Mono" :height 1.0)
+
+;; Setup Visual line mode
+(add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+
+(add-hook 'window-setup-hook
+          (lambda ()
+            (set-face-attribute 'mode-line-active nil :height 1.0 :inherit 'variable-pitch)
+            (set-face-attribute 'mode-line-inactive nil :height 0.8 :inherit 'variable-pitch)))
+                     

@@ -49,5 +49,11 @@ flycheck_*.el
 # network security
 /network-security.data
 
+custom.el
+/eln-cache/
+/lambda-themes/
+recentf
+saveplace
+history
 
 # End of https://www.toptal.com/developers/gitignore/api/emacs
