@@ -87,6 +87,15 @@
 
 (global-set-key (kbd "C-c y") 'ds/yank-with-slugify)
 
+;; which-key: shows a popup of available keybindings when typing a long key
+;; sequence (e.g. C-x ...)
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-setup-side-window-right-bottom)
+  (which-key-mode))
+
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -221,9 +230,9 @@
 (custom-set-faces
   '(org-level-1 ((t (:inherit outline-1 :height 1.2))))
   '(org-level-2 ((t (:inherit outline-2 :height 1.1))))
-  '(org-level-3 ((t (:inherit outline-3 :height 1))))
-  '(org-level-4 ((t (:inherit outline-4 :height 1))))
-  '(org-level-5 ((t (:inherit outline-5 :height 1)))))
+  '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
+  '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
+  '(org-level-5 ((t (:inherit outline-5 :height 1.0)))))
 
 
 (setq org-latex-packages-alist '(("" "listings")
@@ -282,6 +291,8 @@
   :init (textsize-mode))
 
 (load-file (expand-file-name "extras/base.el" user-emacs-directory))
+(load-file (expand-file-name "extras/dev.el" user-emacs-directory))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fonts
