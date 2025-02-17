@@ -51,16 +51,25 @@
 (spacious-padding-mode 1)
 (define-key global-map (kbd "<f8>") #'spacious-padding-mode)
 
-(add-to-list 'load-path (expand-file-name "lambda-themes" user-emacs-directory))
-(require 'lambda-themes)
-(load-theme 'lambda-light t)
-(load-theme 'lambda-dark t t)
+
+(use-package modus-themes
+  :ensure t
+  :config
+  ;; Add all your customizations prior to loading the themes
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs t)
+
+  (setq modus-themes-common-palette-overrides modus-themes-preset-overrides-faint)
+  ;; Load the theme of your choice. 
+  (load-theme 'modus-operandi t t)
+  (load-theme 'modus-vivendi t t)
+  (define-key global-map (kbd "<f5>") #'modus-themes-toggle))
 
 (use-package auto-dark
   :ensure t
   :config
   :custom
-  (auto-dark-themes '((lambda-dark) (lambda-light)))
+  (auto-dark-themes '((modus-vivendi) (modus-operandi)))
   :init
   (add-hook 'after-init-hook
                 (lambda ()
