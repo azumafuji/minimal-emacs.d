@@ -67,7 +67,8 @@
     (dolist (grammar
              ;; Note the version numbers. These are the versions that
              ;; are known to work with Combobulate *and* Emacs.
-             '((css . ("https://github.com/tree-sitter/tree-sitter-css" "v0.20.0"))
+             '((csharp . ("https://github.com/tree-sitter/tree-sitter-c-sharp" "v0.23.1"))
+               (css . ("https://github.com/tree-sitter/tree-sitter-css" "v0.20.0"))
                (go . ("https://github.com/tree-sitter/tree-sitter-go" "v0.20.0"))
                (html . ("https://github.com/tree-sitter/tree-sitter-html" "v0.20.1"))
                (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript" "v0.20.1" "src"))
@@ -95,6 +96,7 @@
   (dolist (mapping
            '((python-mode . python-ts-mode)
              (css-mode . css-ts-mode)
+             (csharp-mode . csharp-ts-mode)
              (typescript-mode . typescript-ts-mode)
              (js2-mode . js-ts-mode)
              (bash-mode . bash-ts-mode)
@@ -119,3 +121,39 @@
     ;; Amend this to the directory where you keep Combobulate's source
     ;; code.
     :load-path ("/home/dean/src/public/combobulate")))
+
+
+(defun uv-activate ()
+  "Activate Python environment managed by uv based on current project directory.
+Looks for .venv directory in project root and activates the Python interpreter."
+  (interactive)
+  (let* ((project-root (project-root (project-current t)))
+         (venv-path (expand-file-name ".venv" project-root))
+         (python-path (expand-file-name
+                       (if (eq system-type 'windows-nt)
+                           "Scripts/python.exe"
+                         "bin/python")
+                       venv-path)))
+    (if (file-exists-p python-path)
+        (progn
+          ;; Set Python interpreter path
+          (setq python-shell-interpreter python-path)
+
+          ;; Update exec-path to include the venv's bin directory
+          (let ((venv-bin-dir (file-name-directory python-path)))
+            (setq exec-path (cons venv-bin-dir
+                                  (remove venv-bin-dir exec-path))))
+
+          ;; Update PATH environment variable
+          (setenv "PATH" (concat (file-name-directory python-path)
+                                 path-separator
+                                 (getenv "PATH")))
+
+          ;; Update VIRTUAL_ENV environment variable
+          (setenv "VIRTUAL_ENV" venv-path)
+
+          ;; Remove PYTHONHOME if it exists
+          (setenv "PYTHONHOME" nil)
+
+          (message "Activated UV Python environment at %s" venv-path))
+      (error "No UV Python environment found in %s" project-root))))
