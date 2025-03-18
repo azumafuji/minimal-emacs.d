@@ -106,11 +106,9 @@
 (use-package devicetree-ts-mode
   :ensure t)
 
-(use-package python-ts-mode
-  :ensure nil
-  :hook (python-ts-mode . (lambda ()
-                            (uv-activate))))
-
+(add-hook 'python-mode-hook
+          (lambda ()
+            (uv-activate)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Eglot
