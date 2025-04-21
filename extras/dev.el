@@ -153,9 +153,17 @@
 
 
 
-(add-to-list 'eglot-server-programs
-             '((python-mode python-ts-mode)
-               "basedpyright-langserver" "--stdio"))
+;; (add-to-list 'eglot-server-programs
+;;              '((python-mode python-ts-mode)
+;;                "basedpyright-langserver" "--stdio"))
+
+
+
+(use-package python-black
+  :ensure t
+  :defer t
+  :after python
+  :hook (python-mode . python-black-on-save-mode-enable-dwim))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
